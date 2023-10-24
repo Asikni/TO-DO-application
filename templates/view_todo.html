@@ -1,0 +1,40 @@
+{% extends "layout.html" %}  
+{% block content %}
+<div>                      <!--container for the todo items that will be generated within the loop.-->
+    {% for todo in todos %}
+        <div class="card p-1 m-3">  <!--This div element represents a Bootstrap card component. It provides a container to display each todo item.-->
+            <div class="card-body">  <!--This div element is the body of the card and contains the content for each todo item.-->
+                {% if todo.Completed == "YES" %}
+                <h5 class="card-title bg-success text-white font-weight-bold text-uppercase text-shadow" style="letter-spacing: 2px;">
+                    {{ todo.Task }} (Task Completed)
+                </h5>
+                  
+                {% elif todo.Completed == "NO" %}
+                    <h5 class="card-title bg-warning text-white font-weight-bold text-uppercase text-shadow" style="letter-spacing: 2px;">
+                        {{ todo.Task }} (Task in Progress...)
+                    </h5>
+                      
+
+                {% endif %}
+                <p class="card-text text-muted">{{ todo.Date_Created }}</p>
+
+                <p class="card-text">{{ todo.Description }}</p>
+                <p class="card-text">
+                    {% if todo.Priority == "High" %}
+                      <span class="badge badge-danger">{{ todo.Priority }}</span>
+                    {% elif todo.Priority == "Medium" %}
+                      <span class="badge badge-warning">{{ todo.Priority }}</span>
+                    {% else %}
+                      <span class="badge badge-success">{{ todo.Priority }}</span>
+                    {% endif %}
+                </p>
+                  
+                  
+                <a href="{{ url_for('update_todo', id = todo._id) }}" class="btn btn-outline-info btn-sm">Update</a>  <!--creates an anchor element that represents a link-->
+                <a href="{{ url_for('delete_todo', id = todo._id) }}" class="btn btn-outline-danger btn-sm">Delete</a>
+            </div>
+    </div>
+{% endfor %}
+</div>
+
+{% endblock %}
